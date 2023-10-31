@@ -16,9 +16,13 @@ router.post('/products', async(req, res) => {
 })
 
 //  상품 목록 조회
-router.get('/products', async(req, res) => {
-    const stores = await Store.find().exec();
-    return res.status(200).json({ stores });
+router.get('/products', async (req, res) => {
+    try {
+        const stores = await Store.find().sort({ createdAt: 1 }).exec();
+        return res.status(200).json({ stores });
+    } catch (error) {
+        return res.status(500).json({ message: "상품 목록을 불러오는 중에 오류가 발생했습니다." });
+    }
 })
 
 // 상품 상세 조회
